@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://www.zonapitsmotors.com/</loc>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://www.zonapitsmotors.com/img/og-image.jpg</image:loc>
+      <image:title>Zona Pits Motors — taller mecánico en Tijuana</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.zonapitsmotors.com/img/mascota2-1200.jpg</image:loc>
+      <image:title>Mecánico de Zona Pits Motors revisando el motor de un auto</image:title>
+    </image:image>
+  </url>
+
+  <!-- Páginas legales. Prioridad baja y frecuencia anual: son obligatorias y
+       accesibles desde el pie, pero no compiten por tráfico orgánico. -->
+  <url>
+    <loc>https://www.zonapitsmotors.com/politica-de-privacidad.html</loc>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.zonapitsmotors.com/terminos-y-condiciones.html</loc>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.zonapitsmotors.com/politica-de-cookies.html</loc>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://www.zonapitsmotors.com/cancelaciones-y-garantia.html</loc>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.zonapitsmotors.com/aviso-de-datos.html</loc>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.zonapitsmotors.com/analiticas-y-terceros.html</loc>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+</urlset>

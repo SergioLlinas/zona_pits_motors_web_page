@@ -1,0 +1,1825 @@
+/* ==========================================================================
+   Zona Pits Motors — Hoja de estilos principal
+   Sistema de diseño según la skill custom-design-pro:
+     · Tipografía Major Third (ratio 1.250)
+     · Espaciado en retícula de 8 puntos
+     · Retícula de 12 / 8 / 4 columnas
+     · Paleta 60-30-10 y contraste WCAG verificado
+     · Easing cubic-bezier(0.16, 1, 0.3, 1)
+   El azul #005EB5 es el valor exacto extraído del vectorial del logotipo.
+   ========================================================================== */
+
+/* ------------------------------------------------------------- 1. Tokens */
+:root {
+  /* Superficies — 60 % */
+  --negro:        #0A0A0A;
+  --carbon:       #121214;
+  --carbon-alt:   #16161A;
+  --carbon-claro: #1E1E23;
+
+  /* Texto y estructura — 30 % */
+  --blanco:       #FFFFFF;
+  --plata-claro:  #E8E9EC;
+  --plata:        #C8C9CE;
+  --plata-apagada:#8E9096;
+
+  /* Acento — 10 % */
+  --azul:         #005EB5;
+  --azul-hover:   #0070D8;
+  --azul-texto:   #4DA3E8;
+  /* Azul neón, para los números de las tarjetas de la sección de confianza. Es
+     más claro y más cian que el azul de marca: sobre el fondo de tarjeta da
+     8,81:1, así que se lee con holgura y el números se ve relleno de luz.
+     El contorno que tenía antes (azul de marca al 65 %) daba 1,79:1: era casi
+     invisible y por eso los números parecían huecos. */
+  --azul-neon:    #5BC8FF;
+
+  /* Verde de WhatsApp. Es color de marca ajeno y se usa tal cual: el texto va
+     OSCURO encima (#0A0A0A), no blanco. Con blanco daría 2,1:1 —ilegible—,
+     porque el verde oficial es muy luminoso. */
+  --whatsapp:       #25D366;
+  --whatsapp-hover: #1FBF5B;
+  --whatsapp-texto: #0A0A0A;
+
+  /* Bordes y sombras */
+  --borde:        rgba(255, 255, 255, .09);
+  --borde-fuerte: rgba(255, 255, 255, .16);
+  --sombra:       0 16px 40px -16px rgba(0, 0, 0, .9);
+  --sombra-azul:  0 16px 40px -16px rgba(0, 94, 181, .45);
+
+  /* Escala tipográfica Major Third — valores de escritorio (≥1280 px).
+     Cada clamp alcanza su tope exacto a 1280 px y baja proporcionalmente,
+     de modo que las razones 1.250 se conservan en todos los anchos. */
+  --t-h1: 3.813rem;   /* 61px */
+  --t-h2: 3.063rem;   /* 49px */
+  --t-h3: 2.438rem;   /* 39px */
+  --t-h4: 1.938rem;   /* 31px */
+  --t-h5: 1.563rem;   /* 25px */
+  --t-h6: 1.25rem;    /* 20px */
+  --t-p:  1rem;       /* 16px */
+
+  --fuente-titulo: 'Rajdhani', 'Segoe UI', system-ui, sans-serif;
+  --fuente-texto:  'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  /* Retícula de 8 puntos */
+  --e1:  8px;
+  --e2: 16px;
+  --e3: 24px;
+  --e4: 32px;
+  --e6: 48px;
+  --e8: 64px;
+  --e16: 128px;
+
+  --ancho-max: 1280px;
+  --radio:     4px;
+  --radio-gr:  8px;
+
+  /* Easing easeOutExpo: arranque rápido y asentamiento largo */
+  --transicion: 220ms cubic-bezier(.16, 1, .3, 1);
+}
+
+/* -------------------------------------------------------------- 2. Reset */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--negro);
+  color: var(--plata);
+  font-family: var(--fuente-texto);
+  font-size: var(--t-p);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 var(--e3);
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  color: var(--blanco);
+  text-wrap: balance;
+}
+
+h1 { font-size: clamp(2.25rem, 1.566rem + 2.81vw, var(--t-h1)); line-height: 1;      letter-spacing: -.02em;  text-transform: uppercase; }
+h2 { font-size: clamp(1.75rem, 1.354rem + 2.13vw, var(--t-h2)); line-height: 1.1;                            text-transform: uppercase; }
+h3 { font-size: clamp(1.5rem,  1.179rem + 1.57vw, var(--t-h3)); line-height: 1.15;   letter-spacing: -.015em; }
+h4 { font-size: clamp(1.25rem, .949rem  + 1.24vw, var(--t-h4)); line-height: 1.3; }
+h5 { font-size: clamp(1.125rem,.933rem  + .79vw,  var(--t-h5)); line-height: 1.25; }
+h6 { font-size: clamp(1rem,    .891rem  + .45vw,  var(--t-h6)); line-height: 1.25;   letter-spacing: -.005em; }
+
+p { margin: 0 0 var(--e3); text-wrap: pretty; }
+p:last-child { margin-bottom: 0; }
+
+a { color: var(--azul-texto); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--blanco); }
+
+img, picture, svg { display: block; max-width: 100%; }
+img { height: auto; }
+
+ul, ol { margin: 0; padding: 0; list-style: none; }
+address { font-style: normal; }
+
+:focus-visible {
+  outline: 2px solid var(--azul-texto);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+::selection { background: var(--azul); color: var(--blanco); }
+
+/* ---------------------------------------------------------- 3. Utilidades */
+.contenedor {
+  width: 100%;
+  max-width: var(--ancho-max);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+}
+.contenedor--estrecho { max-width: 864px; }
+
+.etiqueta {
+  display: inline-block;
+  margin: 0 0 var(--e2);
+  padding: var(--e1) var(--e2);
+  border: 1px solid rgba(0, 94, 181, .55);
+  border-radius: 999px;
+  background: rgba(0, 94, 181, .12);
+  color: var(--azul-texto);
+  font-family: var(--fuente-titulo);
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+/* Metálico sobre el titular. Al trocearlo por palabras (GSAP SplitText) cada
+   palabra es un elemento transformado y el background-clip:text del contenedor
+   deja de recortar bien: el degradado se traslada a cada palabra, que sí lo
+   conserva. En titulares en mayúsculas todas comparten altura de caja, así que
+   el degradado queda uniforme. */
+.metalico {
+  background: linear-gradient(178deg,
+    #FFFFFF 0%, #E4E5E9 34%, #A9AAB0 52%, #D6D7DC 68%, #F2F3F5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.metalico--palabras {
+  background: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+}
+.metalico--palabras .palabra {
+  display: inline-block;
+  background: linear-gradient(178deg,
+    #FFFFFF 0%, #E4E5E9 34%, #A9AAB0 52%, #D6D7DC 68%, #F2F3F5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@supports not (background-clip: text) {
+  .metalico,
+  .metalico--palabras .palabra { color: var(--blanco); background: none; }
+}
+
+/* Botones — con estados hover, focus, active y disabled */
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--e1);
+  padding: var(--e2) var(--e3);
+  border: 1px solid transparent;
+  border-radius: var(--radio);
+  font-family: var(--fuente-titulo);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--transicion), border-color var(--transicion),
+              color var(--transicion), transform var(--transicion),
+              box-shadow var(--transicion);
+}
+.boton--primario {
+  background: var(--azul);
+  color: var(--blanco);
+  box-shadow: 0 8px 24px -12px rgba(0, 94, 181, .9);
+}
+.boton--primario:hover {
+  background: var(--azul-hover);
+  color: var(--blanco);
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-azul);
+}
+.boton--primario:active { transform: translateY(0) scale(.985); }
+
+.boton--fantasma {
+  background: transparent;
+  border-color: var(--borde-fuerte);
+  color: var(--plata-claro);
+}
+.boton--fantasma:hover {
+  border-color: var(--azul-texto);
+  color: var(--blanco);
+  transform: translateY(-2px);
+}
+.boton--fantasma:active { transform: translateY(0) scale(.985); }
+
+.boton:disabled,
+.boton[aria-disabled="true"] {
+  opacity: .45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.boton--grande   { padding: var(--e2) var(--e4); font-size: 1.05rem; }
+.boton--compacto { padding: var(--e1) var(--e2); font-size: .88rem; }
+.boton--ancho    { width: 100%; }
+
+/* Variante WhatsApp. No es un .boton--primario verde: el verde de la marca es
+   mucho más luminoso que el azul, así que el texto va oscuro. */
+.boton--whatsapp {
+  background: var(--whatsapp);
+  color: var(--whatsapp-texto);
+  box-shadow: 0 8px 24px -12px rgba(37, 211, 102, .8);
+}
+.boton--whatsapp:hover {
+  background: var(--whatsapp-hover);
+  color: var(--whatsapp-texto);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px -16px rgba(37, 211, 102, .9);
+}
+.boton--whatsapp:active { transform: translateY(0) scale(.985); }
+
+/* CTA de llamada del encabezado. Es un botón primario con icono: el texto solo
+   dice «Llamar», así que el icono es lo que comunica el canal. Se fija el tamaño
+   del SVG porque el botón no define uno y sin esto el icono heredaría el tamaño
+   del texto y quedaría desproporcionado. */
+.boton--llamar { gap: var(--e1); }
+.boton--llamar svg { flex: 0 0 auto; width: 16px; height: 16px; }
+
+/* Listas con marca */
+.lista-marcas li {
+  position: relative;
+  padding-left: var(--e3);
+  margin-bottom: var(--e1);
+  color: var(--plata);
+  font-size: .95rem;
+  line-height: 1.5;
+}
+.lista-marcas li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .56em;
+  width: 8px;
+  height: 8px;
+  background: var(--azul);
+  border-radius: 1px;
+  transform: rotate(45deg);
+}
+.lista-marcas--dos { columns: 2; column-gap: var(--e3); }
+.lista-marcas--dos li { break-inside: avoid; }
+
+/* -------------------------------------------------------- 5. Encabezado */
+.encabezado {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10, 10, 10, .82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--borde);
+}
+.encabezado__interior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--e2);
+  min-height: 72px;
+}
+.marca {
+  display: flex;
+  align-items: center;
+  gap: var(--e2);
+  text-decoration: none;
+  color: var(--blanco);
+}
+.marca__isotipo {
+  width: clamp(40px, 4vw, 48px);
+  height: auto;
+  transition: transform var(--transicion);
+}
+.marca:hover .marca__isotipo { transform: scale(1.06); }
+.marca__texto { display: flex; flex-direction: column; line-height: 1; }
+.marca__nombre {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(1.25rem, 1.1rem + .5vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: var(--blanco);
+}
+.marca__sub {
+  margin-top: 2px;
+  font-family: var(--fuente-titulo);
+  font-size: clamp(.62rem, .58rem + .15vw, .72rem);
+  font-weight: 600;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--azul-texto);
+}
+
+.navegacion { display: flex; align-items: center; gap: var(--e4); }
+.navegacion__lista { display: flex; gap: var(--e4); }
+.navegacion__lista a {
+  position: relative;
+  color: var(--plata-claro);
+  font-family: var(--fuente-titulo);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color var(--transicion);
+}
+.navegacion__lista a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -8px;
+  width: 0; height: 2px;
+  background: var(--azul);
+  transition: width var(--transicion);
+}
+.navegacion__lista a:hover { color: var(--blanco); }
+.navegacion__lista a:hover::after { width: 100%; }
+.navegacion__lista a:active { color: var(--azul-texto); }
+
+.menu-boton {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  background: none;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: var(--radio);
+  cursor: pointer;
+  transition: border-color var(--transicion), background var(--transicion);
+}
+.menu-boton:hover { border-color: var(--azul-texto); background: rgba(255, 255, 255, .04); }
+.menu-boton__barra {
+  display: block;
+  width: 24px;
+  height: 2px;
+  margin-inline: auto;
+  background: var(--plata-claro);
+  transition: transform var(--transicion), opacity var(--transicion);
+}
+.menu-boton[aria-expanded="true"] .menu-boton__barra:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.menu-boton[aria-expanded="true"] .menu-boton__barra:nth-child(2) { opacity: 0; }
+.menu-boton[aria-expanded="true"] .menu-boton__barra:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* ------------------------------------------------------------- 6. Heroe */
+.heroe {
+  position: relative;
+  background: var(--negro);
+  border-bottom: 1px solid var(--borde);
+}
+
+/* .heroe__media es el bloque contenedor de la capa del titular: sin
+   position:relative, la capa se ancla al fondo del héroe entero —incluido el
+   cuerpo que va debajo del vídeo— y el titular se sale de la imagen. */
+.heroe__media { position: relative; }
+
+/* Marco del vídeo. Lleva el póster de fondo, de modo que se vea desde el primer
+   instante y cubra el caso de movimiento reducido (donde el vídeo nunca se
+   reproduce y el hueco quedaría negro). Va en un envoltorio propio y no en
+   .heroe__media para que en móvil no se extienda bajo el titular. */
+.heroe__marco {
+  position: relative;
+  background: var(--negro) url("../videos/Zona_Pits_Motors_Hero_video-poster.webp")
+              center / cover no-repeat;
+}
+
+/* Velo cinematográfico inferior. NO es un contenedor: es un tratamiento sobre el
+   vídeo, y es lo que permite que el titular vaya sin caja y siga siendo legible.
+   La caja del titular es transparente del todo. */
+.heroe__marco::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 74%;
+  pointer-events: none;
+  background: linear-gradient(0deg,
+    rgba(10, 10, 10, .93) 0%,
+    rgba(10, 10, 10, .86) 34%,
+    rgba(10, 10, 10, .58) 64%,
+    rgba(10, 10, 10, 0) 100%);
+}
+
+.heroe__video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  opacity: 0;
+  transition: opacity 900ms cubic-bezier(.16, 1, .3, 1);
+}
+.heroe__video--visible { opacity: 1; }
+
+/* Capa del titular, anclada al borde inferior del vídeo. */
+.heroe__capa {
+  position: absolute;
+  inset: auto 0 clamp(1.5rem, 3vw, 3rem) 0;
+}
+
+/* Caja del titular: transparente del todo. El titular queda suspendido sobre el
+   vídeo y es el velo del marco —no una caja— quien le da contraste. */
+.heroe__panel {
+  padding: 0 0 var(--e4);
+  text-align: center;
+}
+.heroe__panel h1 {
+  margin-bottom: 0;
+  /* drop-shadow y NO text-shadow: con background-clip:text y color transparente,
+     el text-shadow se pinta sobre el degradado recortado y deja el titular casi
+     negro (medido: el píxel más claro caía a 56/255 con el degradado arrancando
+     en blanco puro). drop-shadow actúa sobre el resultado ya recortado. */
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, .85))
+          drop-shadow(0 1px 2px rgba(0, 0, 0, .7));
+}
+
+/* Cuerpo del héroe: debajo del vídeo y fuera de su recuadro, pero dentro del
+   mismo <section>, no como sección aparte.
+   Va en una sola columna centrada para que acompañe al titular, que también lo
+   está. Antes era una retícula 6/6 con la entradilla a la izquierda y las
+   llamadas a la acción a la derecha, y el eje no coincidía con el del H1. */
+.heroe__interior {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  gap: var(--e3);
+  text-align: center;
+  padding-block: var(--e6);
+}
+.heroe__entrada {
+  max-width: 62ch;
+  font-size: var(--t-h6);
+  line-height: 1.5;
+  color: var(--plata-claro);
+}
+.definicion {
+  max-width: 68ch;
+  color: var(--plata);
+  font-size: .95rem;
+}
+.definicion strong { color: var(--blanco); }
+.heroe__interior .definicion { margin: 0; }
+
+.heroe__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--e2);
+}
+.heroe__datos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--e1) var(--e3);
+  font-size: .92rem;
+  color: var(--plata);
+}
+.heroe__datos span { color: var(--azul-texto); font-weight: 700; }
+
+/* Figura del héroe: el vídeo de presentación del taller, debajo del micro-copy.
+   Va en su propia fila centrada, no es una tarjeta y no debe parecerlo: sin fondo
+   ni borde de contenedor, solo el marco del vídeo y su leyenda.
+   Se limita a 620 px, bastante por debajo del texto que la rodea (el párrafo mide
+   68ch, unos 900 px). Se probó primero a 900 con la foto y competía con el
+   titular: ocupaba el ancho entero de la columna y el héroe se sentía saturado.
+   Al reducirla, la mirada vuelve al titular y la pieza queda como apoyo.
+   El margen superior separa del micro-copy para dar aire. */
+.heroe__figura {
+  margin: var(--e6) 0 0;
+  width: 100%;
+  max-width: 620px;
+}
+/* El póster va también como fondo del marco, no solo como atributo del <video>.
+   Mismo motivo que en el vídeo del héroe: con "prefers-reduced-motion" el vídeo
+   nunca se reproduce y el elemento se queda en su primer fotograma, así que sin
+   el fondo el hueco saldría negro. */
+.heroe__figura-marco {
+  position: relative;
+  background: var(--negro) url("../videos/Video_Intro_Zona_Pits_Motors-optimized-poster.webp")
+              center / cover no-repeat;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-gr);
+  overflow: hidden;
+  box-shadow: var(--sombra);
+}
+.heroe__intro {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* El vídeo es 16:9 y el hueco se reserva con esta proporción: sin ella, entre
+     que se pide el archivo y llega el primer fotograma, la figura cambiaría de
+     alto y desplazaría todo lo que tiene debajo. */
+  aspect-ratio: 16 / 9;
+  opacity: 0;
+  transition: opacity 700ms cubic-bezier(.16, 1, .3, 1);
+}
+/* La clase la añade main.js al confirmarse la reproducción, igual que en el
+   vídeo del héroe: si el navegador rechaza el arranque automático, queda el
+   póster del marco y no un rectángulo negro. */
+.heroe__intro--visible { opacity: 1; }
+
+.heroe__figura figcaption {
+  margin-top: var(--e2);
+  color: var(--plata-apagada);
+  font-size: .88rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* ----------------------------------------------------------- 7. Secciones */
+.seccion {
+  padding: clamp(4rem, 7vw, 8rem) 0;
+  scroll-margin-top: 96px;
+}
+.seccion--alt {
+  background: linear-gradient(180deg, var(--carbon) 0%, var(--negro) 100%);
+  border-block: 1px solid var(--borde);
+}
+.seccion__encabezado {
+  max-width: 768px;
+  margin: 0 auto clamp(2rem, 4vw, 4rem);
+  text-align: center;
+}
+.seccion__encabezado .etiqueta { margin-inline: auto; }
+.seccion__entrada {
+  color: var(--plata);
+  font-size: var(--t-h6);
+  line-height: 1.5;
+}
+
+/* ------------------------------------------------------------- 8. Rejilla */
+.rejilla { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--e3); }
+.rejilla--3 > * { grid-column: span 4; }
+/* Los títulos de tarjeta usan h5 (25 px), el escalón que la skill define para
+   encabezados de tarjeta. A 25 px necesitan ~500 px de ancho para no partirse
+   en tres líneas, así que estas cuatro tarjetas van a 2 por fila, no a 4. */
+.rejilla--servicios > * { grid-column: span 6; }
+.rejilla--separada { margin-top: var(--e3); }
+
+/* Tarjetas */
+.tarjeta {
+  position: relative;
+  padding: var(--e4);
+  background: linear-gradient(165deg, var(--carbon-claro) 0%, var(--carbon) 100%);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-gr);
+  transition: transform var(--transicion), border-color var(--transicion),
+              box-shadow var(--transicion);
+}
+.tarjeta::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--azul), transparent);
+  opacity: 0;
+  transition: opacity var(--transicion);
+}
+.tarjeta:hover {
+  transform: translateY(-4px);
+  border-color: var(--borde-fuerte);
+  box-shadow: var(--sombra);
+}
+.tarjeta:hover::before { opacity: 1; }
+.tarjeta p { color: var(--plata); font-size: .95rem; line-height: 1.5; }
+
+.tarjeta__numero {
+  display: block;
+  margin-bottom: var(--e2);
+  font-family: var(--fuente-titulo);
+  font-size: var(--t-h3);
+  font-weight: 700;
+  line-height: 1;
+  /* Relleno con azul neón y halo. Antes era un número hueco: color transparente
+     con un contorno de 1 px al 65 % del azul de marca, que sobre el fondo de la
+     tarjeta daba 1,79:1 — prácticamente invisible, y por eso los números parecían
+     solo un trazo desvaído. Con el relleno quedan a 8,81:1. */
+  color: var(--azul-neon);
+  /* El halo se construye con tres capas de sombra de texto, de la más cerrada a
+     la más abierta. Es lo que da la sensación de luz y no de color plano. Las
+     capas son de baja opacidad a propósito: si el halo compite con la letra, el
+     número se emborrona en vez de brillar. */
+  text-shadow:
+    0 0 4px rgba(91, 200, 255, .55),
+    0 0 14px rgba(91, 200, 255, .32),
+    0 0 28px rgba(0, 94, 181, .45);
+  transition: text-shadow var(--transicion);
+}
+/* Al pasar el cursor, la tarjeta se eleva y ya enciende su línea superior azul:
+   el número sube el brillo un punto para acompañar ese gesto. */
+.tarjeta:hover .tarjeta__numero {
+  text-shadow:
+    0 0 5px rgba(91, 200, 255, .75),
+    0 0 18px rgba(91, 200, 255, .45),
+    0 0 34px rgba(0, 94, 181, .6);
+}
+/* Sin soporte de text-shadow (no hay navegador moderno así, pero por si acaso),
+   el número sigue leyéndose: solo pierde el halo, no el relleno. */
+@supports not (text-shadow: 0 0 4px #000) {
+  .tarjeta__numero { text-shadow: none; }
+}
+.tarjeta__icono {
+  display: block;
+  width: 40px;
+  height: 40px;
+  margin-bottom: var(--e2);
+  color: var(--azul-texto);
+  transition: transform var(--transicion);
+}
+.tarjeta:hover .tarjeta__icono { transform: translateY(-2px) scale(1.05); }
+.tarjeta__icono svg { width: 100%; height: 100%; }
+
+/* Los títulos de tarjeta usan el escalón h5 de la propia escala (25 px), que
+   la skill define para «encabezados de tarjetas o listas». El h3 base (39 px)
+   es para subsecciones a ancho completo, no para una celda de 4 columnas. */
+.tarjeta h3 { font-size: var(--t-h5); line-height: 1.25; }
+.tarjeta--servicio h3 em {
+  display: block;
+  margin-top: 4px;
+  color: var(--azul-texto);
+  font-style: normal;
+  font-size: .64em;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.tarjeta--numerada h3 { font-size: var(--t-h5); line-height: 1.25; }
+
+/* ------------------------------------- 9bis. Carrusel de la sección de servicios */
+/* Las fotos que entregó el cliente tienen proporciones muy distintas: de 0,56
+   (vertical) a 1,78 (panorámica). En vez de recortarlas para forzar una común, la
+   fila tiene ALTURA FIJA y cada foto se muestra a su proporción natural con
+   `object-fit: cover` y ancho automático. Sobre el fondo negro del sitio, el aire
+   que sobra se lee como parte del diseño y no como un hueco; y ninguna foto pierde
+   encuadre, que es lo que pasaría recortando una vertical a 16:9.
+   Si el JavaScript no corre, sigue siendo un carrusel: es un contenedor con scroll
+   horizontal y ajuste por CSS. El script solo añade los botones y el contador. */
+.carrusel {
+  margin-top: var(--e8);
+  padding-top: var(--e6);
+  border-top: 1px solid var(--borde);
+}
+.carrusel__encabezado {
+  margin-bottom: var(--e4);
+  text-align: center;
+}
+.carrusel__encabezado h3 {
+  margin-bottom: var(--e1);
+  font-size: var(--t-h6);
+  line-height: 1.25;
+}
+.carrusel__encabezado p {
+  color: var(--plata-apagada);
+  font-size: .92rem;
+}
+
+/* La pista. `scroll-snap-type` es lo que hace que cada foto se quede centrada al
+   soltar; funciona con dedo, con rueda horizontal y con los botones. */
+.carrusel__pista {
+  display: flex;
+  align-items: center;
+  gap: var(--e3);
+  margin: 0;
+  padding: 0 var(--e1) var(--e2);
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  /* El scroll suave es del navegador; con "prefers-reduced-motion" se anula
+     desde la consulta global del final de la hoja. */
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--azul) transparent;
+  /* Sin esto, al enfocar con el teclado el navegador puede recortar el anillo. */
+  scroll-padding-inline: var(--e1);
+}
+.carrusel__pista::-webkit-scrollbar { height: 6px; }
+.carrusel__pista::-webkit-scrollbar-track { background: transparent; }
+.carrusel__pista::-webkit-scrollbar-thumb {
+  background: var(--azul);
+  border-radius: 3px;
+}
+
+.carrusel__foto {
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+}
+.carrusel__foto img {
+  display: block;
+  /* Altura común para todas; el ancho lo fija la proporción de cada una. */
+  height: clamp(240px, 42vw, 420px);
+  width: auto;
+  max-width: none;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-gr);
+  background: var(--carbon-alt);
+}
+
+/* Controles. Los botones existen para quien navega con ratón y no puede hacer
+   scroll horizontal con el dedo: sin ellos, la mitad de las fotos quedarían a un
+   gesto que en escritorio no descubre todo el mundo. */
+.carrusel__controles {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--e3);
+  margin-top: var(--e3);
+}
+.carrusel__boton {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 50%;
+  color: var(--plata-claro);
+  cursor: pointer;
+  transition: background var(--transicion), border-color var(--transicion),
+              color var(--transicion), transform var(--transicion);
+}
+.carrusel__boton:hover {
+  background: rgba(255, 255, 255, .06);
+  border-color: var(--azul-texto);
+  color: var(--blanco);
+}
+.carrusel__boton:active { transform: scale(.95); }
+.carrusel__boton:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+  transform: none;
+}
+.carrusel__boton svg { width: 20px; height: 20px; }
+
+.carrusel__contador {
+  min-width: 5ch;
+  font-family: var(--fuente-titulo);
+  font-size: .95rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  color: var(--plata-apagada);
+  text-align: center;
+}
+.carrusel__contador strong { color: var(--blanco); }
+
+@media (max-width: 620px) {
+  .carrusel { margin-top: var(--e6); padding-top: var(--e4); }
+  .carrusel__foto img { height: clamp(220px, 62vw, 300px); }
+  .carrusel__pista { gap: var(--e2); }
+}
+
+/* ---------------------------------------------------------- 9. Plan Plus */
+.plan {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: center;
+  padding: clamp(2rem, 4vw, 4rem);
+  background:
+    radial-gradient(ellipse 60% 80% at 100% 0%, rgba(0, 94, 181, .18), transparent 60%),
+    linear-gradient(150deg, var(--carbon-claro) 0%, var(--carbon) 100%);
+  border: 1px solid var(--borde-fuerte);
+  border-radius: var(--radio-gr);
+  box-shadow: var(--sombra);
+}
+.plan__contenido { grid-column: 1 / -1; max-width: 68ch; }
+/* La imagen va a ancho completo, debajo de la entradilla y encima de los
+   beneficios: es panorámica (800x333) y así se ve a su tamaño. En una columna de
+   6 se quedaba estrecha y dejaba media columna vacía debajo. */
+.plan__visual    { grid-column: 1 / -1; }
+.plan__entrada { color: var(--plata-claro); font-size: var(--t-h6); line-height: 1.5; }
+/* Los cuatro beneficios del Plan Plus llevan título y explicación. La lista ocupa
+   el ANCHO COMPLETO del panel, no la columna de texto: en 6 de 12 columnas cada
+   celda se queda en 216 px y «Recordatorios automáticos» no cabe ni a 20 px
+   (medido: se partía en dos líneas en escritorio y dos de los cuatro títulos en
+   tableta). A ancho completo cada beneficio tiene el doble y los cuatro caben en
+   una línea. Deliberadamente NO son tarjetas dentro de una tarjeta: el panel ya
+   es un contenedor con borde y anidar cajas dentro se lee como error de
+   composición. Se separan con una línea superior fina. */
+.plan__lista {
+  grid-column: 1 / -1;
+  display: grid;
+  /* Tres columnas y no cuatro: a 20 px «Recordatorios automáticos» necesita unos
+     260 px de caja y con cuatro columnas solo tendría 223 (medido: se partía en
+     dos líneas y descuadraba la fila). Con tres van los cuatro en una línea y el
+     cuarto baja solo, que es una composición estable. */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--e4);
+  margin: var(--e4) 0;
+}
+.plan__lista li {
+  position: relative;
+  padding-top: var(--e3);
+  padding-left: var(--e3);
+  border-top: 1px solid var(--borde);
+  font-size: .9rem;
+  line-height: 1.5;
+  color: var(--plata);
+}
+.plan__lista li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc(var(--e3) + .45em);
+  width: 8px;
+  height: 8px;
+  background: var(--azul);
+  border-radius: 1px;
+  transform: rotate(45deg);
+}
+.plan__lista strong {
+  display: block;
+  margin-bottom: 4px;
+  font-family: var(--fuente-titulo);
+  /* Escalón h6 (20 px): es el que la skill reserva para encabezados de paneles y
+     listas. El h5 (25 px) parte los títulos incluso a ancho completo. */
+  font-size: var(--t-h6);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--blanco);
+}
+
+/* La llamada a la acción va centrada en su propia fila, debajo de la lista. */
+.plan__llamada {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+}
+.plan__visual img {
+  width: 100%;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-gr);
+  transition: transform var(--transicion);
+}
+.plan__visual:hover img { transform: scale(1.02); }
+
+/* --------------------------------------------------------------- 11. FAQ */
+.acordeon { border-top: 1px solid var(--borde); }
+.acordeon details { border-bottom: 1px solid var(--borde); }
+.acordeon summary {
+  position: relative;
+  padding: var(--e3) var(--e6) var(--e3) 0;
+  font-family: var(--fuente-titulo);
+  font-size: var(--t-h6);
+  font-weight: 600;
+  color: var(--blanco);
+  cursor: pointer;
+  list-style: none;
+  transition: color var(--transicion);
+}
+.acordeon summary::-webkit-details-marker { display: none; }
+.acordeon summary::after {
+  content: "";
+  position: absolute;
+  right: var(--e2);
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  border-right: 2px solid var(--azul-texto);
+  border-bottom: 2px solid var(--azul-texto);
+  transform: translateY(-70%) rotate(45deg);
+  transition: transform var(--transicion);
+}
+.acordeon details[open] summary::after { transform: translateY(-30%) rotate(-135deg); }
+.acordeon summary:hover { color: var(--azul-texto); }
+.acordeon summary:active { color: var(--azul-hover); }
+.acordeon details > p {
+  padding: 0 var(--e6) var(--e3) 0;
+  color: var(--plata);
+  font-size: .95rem;
+}
+.acordeon details > p strong { color: var(--plata-claro); }
+
+/* ---------------------------------------------- 11bis. Reseñas de Google */
+/* El widget de Elfsight se dibuja dentro de .resenas__app. Hasta que eso ocurre
+   —y para siempre, si el visitante no acepta las cookies de terceros— esa caja
+   está vacía, así que el módulo solo tiene que envolver el aviso de respaldo. NO
+   se reserva aquí el alto del widget: eso se hace en .resenas--previstas, y solo
+   cuando consta que el widget va a llegar. Reservarlo siempre dejaría un recuadro
+   vacío enorme debajo del titular a quien rechaza las cookies. */
+.resenas {
+  padding: clamp(1rem, 3vw, 1.5rem);
+  background: var(--carbon);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-gr);
+  box-shadow: var(--sombra);
+}
+
+/* La caja que rellena Elfsight. NO lleva display:none cuando está vacía: el
+   widget usa data-elfsight-app-lazy, es decir IntersectionObserver, y un elemento
+   oculto nunca interseca, así que jamás llegaría a cargarse. Vacía ya mide 0 px,
+   así que no hace falta ocultarla. */
+.resenas__app { min-height: 0; }
+
+/* El aviso es el estado por defecto: se ve mientras no haya consentimiento, y
+   también si Elfsight tarda o falla. Es la única salida honesta que no deja un
+   hueco en blanco bajo el titular. */
+.resenas__aviso {
+  margin: 0;
+  max-width: 62ch;
+  color: var(--plata-apagada);
+  font-size: .92rem;
+  line-height: 1.6;
+}
+.resenas__aviso a { color: var(--azul-texto); }
+
+/* main.js añade esta clase en cuanto el widget pinta algo: el aviso ya sobra y
+   quedaría como un texto suelto debajo de las reseñas. */
+.resenas--cargadas .resenas__aviso { display: none; }
+
+/* Cuando consta que el widget va a llegar, main.js marca el módulo y aquí se
+   reserva su alto REAL, medido sobre el widget ya montado: 380 px en escritorio y
+   372 en móvil. Sin esta reserva, al pintar empujaría hacia abajo la sección de
+   contacto justo cuando el visitante la está mirando.
+   La clase se pone en cuanto hay consentimiento —no cuando el widget aparece—
+   porque el widget es perezoso y aún tardará en dibujarse: así el hueco ya está
+   reservado antes de que el visitante llegue a la sección. */
+.resenas--previstas { min-height: 380px; }
+
+/* ---------------------------------------------------------- 12. Contacto */
+.contacto {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: start;
+}
+/* El panel va en UNA columna y la tarjeta de datos se lleva el resto del ancho:
+   necesita esa holgura para partirse en dos por dentro (datos | mapa) sin que la
+   columna de datos se quede sin sitio. Antes era 8+4 y el mapa vivía en un bloque
+   aparte a todo el ancho, debajo de esta fila. */
+.panel-contacto  { grid-column: span 5; }
+.datos-contacto  { grid-column: span 7; }
+
+/* --- Campos de formulario ---
+   Son los del formulario del pie (.pie__formulario form). Antes colgaban de un
+   .formulario, el bloque grande del cuerpo de la página; ese bloque ya no existe
+   —lo sustituyó .panel-contacto, que presenta WhatsApp— así que la clase base se
+   retiró. Los .campo se mantienen porque son los campos en sí. */
+.campo { display: flex; flex-direction: column; }
+.campo--ancho { grid-column: 1 / -1; }
+
+.campo label {
+  margin-bottom: var(--e1);
+  font-family: var(--fuente-titulo);
+  font-size: .82rem;
+  font-weight: 600;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  color: var(--plata-apagada);
+}
+.campo label span { color: var(--azul-texto); }
+
+.campo input,
+.campo select,
+.campo textarea {
+  width: 100%;
+  padding: var(--e2);
+  background: rgba(0, 0, 0, .45);
+  border: 1px solid var(--borde-fuerte);
+  border-radius: var(--radio);
+  color: var(--blanco);
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  transition: border-color var(--transicion), background var(--transicion),
+              box-shadow var(--transicion);
+}
+.campo textarea { resize: vertical; min-height: 128px; }
+.campo input::placeholder,
+.campo textarea::placeholder { color: #85878E; }
+.campo input:hover,
+.campo select:hover,
+.campo textarea:hover { border-color: rgba(255, 255, 255, .28); }
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+  outline: none;
+  border-color: var(--azul-texto);
+  background: rgba(0, 0, 0, .7);
+  box-shadow: 0 0 0 3px rgba(77, 163, 232, .18);
+}
+.campo select { appearance: none; cursor: pointer; }
+.campo select option { background: var(--carbon-claro); color: var(--blanco); }
+
+.campo--error input,
+.campo--error select { border-color: #E5484D; }
+.campo__error {
+  min-height: 0;
+  margin: var(--e1) 0 0;
+  color: #F2757A;
+  font-size: .82rem;
+}
+.campo__error:empty { display: none; }
+
+.campo--acciones { gap: var(--e2); }
+
+/* Casilla de consentimiento del formulario. No se reutiliza el estilo de .campo
+   label (mayúsculas, interletrado amplio, color apagado): ese tratamiento es para
+   etiquetas cortas de campo, y aquí el texto es una frase con dos enlaces que hay
+   que poder leer. */
+.campo--consentimiento { grid-column: 1 / -1; }
+.casilla {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--e2);
+  cursor: pointer;
+}
+.casilla input[type="checkbox"] {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin: 1px 0 0;
+  padding: 0;
+  accent-color: var(--azul);
+  cursor: pointer;
+}
+.casilla span { color: var(--plata); font-size: .88rem; line-height: 1.55; }
+.casilla a { color: var(--azul-texto); }
+.campo--consentimiento.campo--error .casilla span { color: #F2757A; }
+.formulario__nota { margin: 0; color: var(--plata-apagada); font-size: .82rem; line-height: 1.5; }
+.formulario__nota a { color: var(--azul-texto); }
+.formulario__estado { margin: 0; font-size: .95rem; font-weight: 600; }
+.formulario__estado[data-tipo="ok"]    { color: #5BD67E; }
+.formulario__estado[data-tipo="error"] { color: #F2757A; }
+
+/* El bloque de contacto presenta WhatsApp como canal principal: NO es un
+   formulario, así que no reutiliza .formulario. Antes lo hacía y heredaba su
+   retícula de 2 columnas, con lo que la llamada caía en la celda 1 de la fila 2
+   y la nota en la celda 2: botón a la izquierda y texto a la derecha, sin
+   relación visual entre ellos. Comparte la piel de panel, no la maquetación. */
+.panel-contacto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--e2);
+  padding: clamp(1.5rem, 3.5vw, 2.5rem);
+  background: linear-gradient(165deg, var(--carbon-claro) 0%, var(--carbon) 100%);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-gr);
+}
+.panel-contacto h3 { margin-bottom: 0; font-size: var(--t-h6); line-height: 1.25; }
+.panel-contacto p { color: var(--plata); font-size: .95rem; line-height: 1.5; }
+.panel-contacto .lista-marcas {
+  margin-top: var(--e1);
+  padding-top: var(--e3);
+  border-top: 1px solid var(--borde);
+}
+
+/* Trampa antibots — fuera de pantalla, nunca oculta con display:none */
+.trampa {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.datos-contacto {
+  /* Dos columnas DENTRO de la tarjeta: los datos a la izquierda y el mapa a la
+     derecha. La rejilla se declara aquí, sobre la tarjeta, en vez de añadir un
+     envoltorio extra: los hijos ya existían y un div solo para maquetar habría
+     metido un nivel de anidamiento sin ganar nada.
+
+     La primera columna es `auto` —mide lo que mide su contenido— y NO la mitad.
+     Medido con tools/diag_mapa.py, la columna de datos necesita ~308 px para que el
+     correo y la línea más larga del horario quepan en UNA línea; con dos mitades
+     iguales se quedaba en 238-246 px entre 1000 y 1100 px de ventana, y el correo
+     se partía por la mitad («…zonapitsmotors.co» / «m»). Con `auto` es estable en
+     todos los anchos y el mapa se lleva el resto.
+
+     `container-type` es lo que permite apilar las columnas según el ancho de la
+     TARJETA y no el de la ventana, y no es un capricho: esta tarjeta mide 575 px a
+     1024 px de ventana y 902 px a 980, porque entre 981 y 1280 la fila de contacto
+     reparte 3/5 sobre una retícula de 8 columnas. Es decir, se ESTRECHA al agrandar
+     la ventana, así que cualquier punto de ruptura por viewport acierta en un lado
+     y falla en el otro. */
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--e3) var(--e4);
+  align-items: start;
+  padding: clamp(1.5rem, 3.5vw, 2rem);
+  background: var(--carbon-alt);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-gr);
+}
+/* Aire para el botón flotante de WhatsApp, que en escritorio se apoya justo
+   encima de la esquina inferior derecha de esta tarjeta —donde está el botón de
+   descarga—. Sin este relleno el flotante tapa un elemento clicable. */
+@media (min-width: 621px) {
+  .datos-contacto { padding-bottom: var(--e16); }
+}
+/* Colocación explícita por líneas y no `grid-template-areas`: la consulta de
+   contenedor de abajo tiene que poder devolver los hijos al flujo automático, y
+   con áreas nombradas el `grid-area` del mapa lo dejaría fijado a las filas 2-3 y
+   se solaparía con los datos al apilarse. */
+.datos-contacto h3 {
+  grid-row: 1;
+  grid-column: 1 / -1;
+  /* Sin margen: el aire lo da el gap de la rejilla de la tarjeta. */
+  margin-bottom: 0;
+  font-size: var(--t-h6);
+  line-height: 1.25;
+}
+.datos-contacto__lista {
+  grid-row: 2;
+  grid-column: 1;
+  display: grid;
+  gap: var(--e3);
+  /* Igual que el titular: el aire de abajo lo pone el gap. */
+  margin-bottom: 0;
+}
+/* El botón de descarga cierra la columna izquierda. */
+.datos-contacto .boton--fantasma {
+  grid-row: 3;
+  grid-column: 1;
+}
+/* El mapa ocupa la columna derecha entera, a la altura de los datos y del botón. */
+.datos-contacto .mapa {
+  grid-row: 2 / 4;
+  grid-column: 2;
+  /* Se estira para igualar la altura de la columna de datos. Sin esto el mapa se
+     queda arriba, el botón justo debajo y sobra casi media columna vacía (medido:
+     230 px de los ~780 del alto de la tarjeta a 1440). Estirado, las dos columnas
+     acaban a la misma altura y los dos botones —«Cómo llegar» y «Descargar la
+     lista de servicios»— quedan alineados al pie, que es lo que hace que el
+     conjunto se lea como una sola pieza y no como dos mitades sueltas. */
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+}
+/* El estirado solo se aplica cuando el mapa ya está montado: si no, el marco
+   envuelve el aviso de respaldo y estirarlo dejaría un hueco vacío en lugar de un
+   texto, que es el fallo que ya hubo que corregir en la sección de reseñas. */
+.datos-contacto .mapa--cargado .mapa__marco {
+  flex: 1 1 auto;
+  aspect-ratio: auto;
+}
+
+/* Cuando la tarjeta no da para dos columnas, se apilan.
+   El umbral son 600 px de CAJA DE CONTENIDO, que es lo que miden las consultas de
+   contenedor: la tarjeta menos sus 32 px de relleno por lado, o sea ~664 px de
+   tarjeta. Conviene tenerlo presente porque el primer intento fue poner 700
+   pensando en el ancho de la tarjeta, y como la de escritorio mide 680, apilaba
+   también en escritorio.
+   Con 600: por encima, la columna de datos se lleva sus 308 y al mapa le quedan
+   entre 250 y 480 px según el ancho. Por debajo se apila, porque a 1024 px de
+   ventana la tarjeta mide 575 y el mapa se quedaba en 168, que no se lee.
+   Va por ancho de TARJETA y no de ventana a propósito: ver la nota de arriba.
+   El apilado deja el mapa debajo del botón de descarga, que es exactamente donde
+   estaba antes de meterlo en la tarjeta. */
+@container (max-width: 600px) {
+  .datos-contacto h3,
+  .datos-contacto__lista,
+  .datos-contacto .boton--fantasma,
+  .datos-contacto .mapa {
+    grid-row: auto;
+    grid-column: 1 / -1;
+  }
+  /* Apilado no hay dos columnas que igualar: el mapa vuelve a 4:3 sobre el ancho
+     entero de la tarjeta, que es como se ve en móvil. */
+  .datos-contacto .mapa--cargado .mapa__marco {
+    flex: none;
+    aspect-ratio: 4 / 3;
+  }
+}
+.datos-contacto__lista li { display: flex; gap: var(--e2); align-items: flex-start; }
+.datos-contacto__icono {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  margin-top: 2px;
+  color: var(--azul-texto);
+}
+.datos-contacto__icono svg { width: 100%; height: 100%; }
+.datos-contacto__etiqueta {
+  display: block;
+  font-family: var(--fuente-titulo);
+  font-size: .74rem;
+  font-weight: 600;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--plata-apagada);
+}
+.datos-contacto__lista a,
+.datos-contacto address { color: var(--plata-claro); font-size: .95rem; }
+.datos-contacto__lista a { text-decoration: none; transition: color var(--transicion); }
+.datos-contacto__lista a:hover { color: var(--azul-texto); text-decoration: underline; }
+
+/* --- Mapa de la ubicación ---
+   Vive DENTRO de la tarjeta de datos, ocupando su columna derecha: la colocación
+   en la rejilla la define el bloque de .datos-contacto, más arriba.
+   No lleva caja propia: el marco, el fondo y la sombra los pone la tarjeta que lo
+   contiene, y duplicarlos aquí daría un recuadro dentro de otro. */
+
+.mapa__marco {
+  position: relative;
+  padding: var(--e2);
+  border-radius: var(--radio);
+  overflow: hidden;   /* el <iframe> es cuadrado: así lo recorta el radio */
+}
+
+/* El marco solo reserva altura CUANDO el mapa existe. Antes de eso solo envuelve el
+   aviso: reservar aquí dejaría un rectángulo vacío enorme a quien rechaza las
+   cookies, que es justo el fallo que hubo que corregir en la sección de reseñas.
+   Este 4:3 es el valor de partida y también el del estado APILADO —lo fija la
+   consulta de contenedor de más arriba—. A dos columnas lo sobreescribe el bloque
+   de .datos-contacto, donde el mapa se estira para igualar la altura de la columna
+   de datos: en 274 px de ancho, un 4:3 daría 205 px de alto y dejaría media
+   columna vacía. */
+.mapa--cargado .mapa__marco { aspect-ratio: 4 / 3; padding: 0; }
+
+/* El aviso es el estado por defecto: se ve mientras no haya consentimiento, y
+   también si Google no llega a responder. */
+.mapa__aviso {
+  margin: 0;
+  max-width: 62ch;
+  color: var(--plata-apagada);
+  font-size: .92rem;
+  line-height: 1.6;
+}
+.mapa__aviso a { color: var(--azul-texto); }
+.mapa--cargado .mapa__aviso { display: none; }
+
+/* El <iframe> que inyecta consentimiento.js llena el marco. */
+.mapa__lienzo,
+.mapa__lienzo iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* A todo el ancho de la columna del mapa: es la llamada a la acción de esa mitad
+   y un botón corto dejaría la columna desequilibrada. */
+.mapa__boton { margin-top: var(--e2); width: 100%; }
+
+/* Capa táctil: cubre el mapa para que tocarlo abra la app con las indicaciones,
+   que es lo que de verdad se quiere en el teléfono. Se decide con @media y no con
+   JavaScript porque es una capacidad del dispositivo, no un comportamiento: así
+   no hay que esperar a que corra ningún script para saberlo, y sin JavaScript el
+   mapa ni siquiera existe.
+   Solo aparece cuando el mapa ya está montado: si estuviera siempre, taparía el
+   aviso de respaldo y no se podría leer. */
+.mapa__capa { display: none; }
+
+@media (hover: none) {
+  .mapa--cargado .mapa__capa {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: var(--e3);
+    text-decoration: none;
+  }
+  .mapa__capa-texto {
+    display: inline-block;
+    padding: var(--e1) var(--e2);
+    border-radius: 999px;
+    background: var(--azul);
+    color: var(--blanco);
+    font-size: .88rem;
+    font-weight: 600;
+    box-shadow: var(--sombra-azul);
+  }
+}
+
+/* ------------------------------------------------------------ 13. Footer */
+.pie {
+  padding: clamp(2.5rem, 5vw, 4rem) 0 var(--e3);
+  background: var(--negro);
+  border-top: 1px solid var(--borde);
+}
+/* Aire para el botón flotante, que está siempre visible. Medido con
+   tools/diag_flotante_siempre.py: sin este relleno, en móvil el botón tapaba el
+   centro del enlace «Marketing664» de la firma, que es lo último que hay en la
+   página. El botón mide 64 px y va a 32 px del borde inferior, así que ocupa los
+   últimos 96 px de la ventana: con 128 px de relleno sobra holgura en cualquier
+   ancho, incluido el móvil, donde la firma baja más. */
+.pie { padding-bottom: var(--e16); }
+.pie__interior {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--e4);
+  padding-bottom: var(--e4);
+}
+/* El pie del sitio principal tiene CINCO bloques, no cuatro: al añadir los enlaces
+   legales, la fila de 12 columnas se reparte en 3+3+2+2+2. Con 4 columnas para el
+   formulario y la marca, los tres bloques de enlaces se quedaban con 2 columnas
+   cada uno (~180 px a 1440) y sus etiquetas se partían. */
+.pie__marca          { grid-column: span 3; }
+.pie__formulario     { grid-column: span 3; }
+.pie__nav            { grid-column: span 2; }
+.pie__legal-enlaces  { grid-column: span 2; }
+.pie__contacto       { grid-column: span 2; }
+/* Los enlaces legales no caben en 2 columnas a una sola columna de texto: se
+   reparten en dos, que es como caben sin partir las etiquetas. */
+.pie__legal-enlaces ul { columns: 2; column-gap: var(--e3); }
+.pie__legal-enlaces li { margin-bottom: var(--e1); break-inside: avoid; }
+
+.pie__marca img { width: 160px; height: auto; }
+.pie__lema { margin-top: var(--e2); color: var(--plata-apagada); font-size: .92rem; }
+.pie__titulo {
+  margin-bottom: var(--e2);
+  font-size: .8rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--plata-apagada);
+}
+.pie__nav li { margin-bottom: var(--e1); }
+.pie__nav a {
+  color: var(--plata);
+  text-decoration: none;
+  font-size: .95rem;
+  transition: color var(--transicion);
+}
+.pie__nav a:hover { color: var(--azul-texto); text-decoration: underline; }
+.pie__contacto address { color: var(--plata); font-size: .95rem; line-height: 1.8; }
+.pie__contacto a { color: var(--plata-claro); text-decoration: none; transition: color var(--transicion); }
+.pie__contacto a:hover { color: var(--azul-texto); }
+.pie__horario { margin-top: var(--e2); color: var(--plata-apagada); font-size: .95rem; line-height: 1.8; }
+
+/* --- Formulario rápido del pie: Agenda tu revisión hoy --- */
+.pie__formulario { grid-column: span 4; }
+
+.pie__formulario form {
+  display: grid;
+  gap: var(--e2);
+}
+/* El campo trampa va fuera de pantalla: no debe abrir un hueco en la retícula. */
+.pie__formulario .trampa { position: absolute; }
+
+/* Los campos del pie van más ajustados que los del formulario principal: la
+   columna es de 4 de 12 y con el relleno grande el campo se come el espacio. */
+.pie__formulario .campo input {
+  padding: var(--e1) var(--e2);
+  font-size: .95rem;
+}
+.pie__formulario .campo label { font-size: .74rem; margin-bottom: 6px; }
+.pie__formulario .campo__error { font-size: .78rem; }
+.pie__formulario .boton { font-size: .92rem; padding: var(--e2) var(--e3); }
+.pie__formulario .formulario__nota { margin-top: var(--e1); }
+
+/* ------------------------------------------------------------ 13bis. WhatsApp */
+/* Botón flotante: el canal de conversión principal del nuevo buyer persona
+   (dueño de auto particular), que consulta desde el teléfono y no llena
+   formularios. z-index por debajo del encabezado (100) para que no lo tape
+   cuando el menú móvil está abierto.
+
+   Es SOLO el icono: sin texto y sin fondo propio. El icono oficial de WhatsApp
+   ya trae su propio cuadro verde con las esquinas redondeadas y transparentes,
+   así que una píldora verde detrás sería verde sobre verde. Lo que lo sostiene
+   contra el fondo negro es el propio icono (verde luminoso sobre #0A0A0A) más la
+   sombra proyectada. */
+.whatsapp {
+  position: fixed;
+  right: var(--e4);
+  bottom: calc(var(--e4) + env(safe-area-inset-bottom, 0px));
+  z-index: 90;
+  display: block;
+  /* 48 px: el icono en pantalla coincide exactamente con el activo 1x, así que
+     no hay reescalado. Se probó a 64 px y resultaba demasiado grande frente al
+     resto de la interfaz (los botones del sitio miden ~48-56 px de alto). */
+  width: 48px;
+  height: 48px;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, .85));
+  transition: transform var(--transicion), filter var(--transicion);
+}
+.whatsapp picture { display: block; width: 100%; height: 100%; }
+.whatsapp img { display: block; width: 100%; height: 100%; }
+.whatsapp:hover {
+  transform: translateY(-2px);
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, .95));
+}
+.whatsapp:active { transform: translateY(0) scale(.985); }
+/* El correo es un token largo que no puede partirse por espacios: sin esto
+   desborda la columna en tableta. */
+.pie__contacto a,
+.datos-contacto__lista a { overflow-wrap: anywhere; }
+
+.pie__legal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e2);
+  padding-top: var(--e3);
+  border-top: 1px solid var(--borde);
+}
+.pie__legal-fila {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--e1) var(--e3);
+}
+.pie__legal p { margin: 0; color: var(--plata-apagada); font-size: .82rem; }
+
+/* --- Firma del desarrollador, debajo del texto y cerrando la esquina derecha --- */
+/* El selector lleva .pie__legal delante a propósito: `.pie__legal p { margin: 0 }`
+   tiene más especificidad (clase + elemento) que `.firma` a secas. */
+.pie__legal .firma {
+  display: flex;
+  align-items: center;
+  gap: var(--e1);
+  /* En columna, esto la lleva al extremo derecho en lugar del margen automático. */
+  align-self: flex-end;
+  margin: 0;
+}
+.firma__texto { color: var(--plata-apagada); }
+
+/* Icono y nombre comparten un solo enlace: así ambos son clicables y el lector de
+   pantalla anuncia un único destino, no dos. Se abre en pestaña nueva para no
+   sacar al visitante del sitio del cliente. */
+.firma__enlace {
+  display: flex;
+  align-items: center;
+  gap: var(--e1);
+  text-decoration: none;
+  transition: opacity var(--transicion);
+}
+.firma__enlace:hover { opacity: .85; }
+.firma__enlace:hover .firma__nombre { text-decoration: underline; }
+
+/* Halo suave en vez de caja. El cuerpo de la M es rgb(32,32,32) y sobre el pie
+   negro daría 1,2:1 de contraste: sin este apoyo el logo desaparece. Se difumina
+   a transparente para que no se lea como un contenedor. */
+.firma__insignia {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(232, 233, 236, .84) 0%,
+    rgba(232, 233, 236, .60) 32%,
+    rgba(232, 233, 236, .24) 56%,
+    rgba(232, 233, 236, .06) 70%,
+    rgba(232, 233, 236, 0) 80%);
+}
+.firma__logo {
+  display: block;
+  width: 24px;
+  height: auto;
+}
+/* Rojo de marca de Marketing664. Medido sobre el pie (#0A0A0A) da 2,35:1, por
+   debajo del 4,5:1 que pide WCAG AA para texto normal: es el color de marca y se
+   respeta tal cual, pero conviene saberlo. Un tono del mismo matiz aclarado a
+   #EA2E54 subiría a 4,73:1 si algún día se quiere legibilidad plena. */
+.firma__nombre { color: #9b0f2b; font-weight: 600; }
+
+/* -------------------------------------------------------- 14. Animaciones */
+.revelar {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 640ms cubic-bezier(.16, 1, .3, 1),
+              transform 640ms cubic-bezier(.16, 1, .3, 1);
+}
+.revelar--visible { opacity: 1; transform: none; }
+
+/* ------------------------------------------------- 15. Adaptabilidad */
+/* Retícula según la skill: 12 columnas en escritorio (≥1281 px),
+   8 en tableta y 4 en móvil. El número de columnas debe bajar con el ancho:
+   los huecos no se encogen, así que 12 columnas con gap de 32 px suman
+   352 px solo en separaciones y desbordan cualquier móvil. */
+
+/* Tableta — 8 columnas */
+@media (max-width: 1280px) {
+  /* .heroe__interior NO entra aquí: va en una sola columna centrada, y meterlo
+     en la retícula de 8 lo devolvería a varias columnas y rompería el eje. */
+  .plan,
+  .contacto,
+  .rejilla,
+  .pie__interior { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+  /* Cuatro beneficios en 8 columnas darían celdas de ~180 px: a dos por fila. */
+  .plan__lista       { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* En la retícula de 8 columnas, 4 y 4. Con 5/3 la tarjeta de datos se quedaba en
+     331 px a 1024 de ventana, con 267 px útiles para la lista, y el correo —que
+     necesita 268— se partía. Con 3/5 el panel se quedaba en 341 px y su párrafo
+     bajaba a ~40 caracteres por línea. A la mitad, ninguno de los dos se rompe. */
+  .panel-contacto    { grid-column: span 4; }
+  .datos-contacto    { grid-column: span 4; }
+  .rejilla--3 > *,
+  .rejilla--servicios > * { grid-column: span 4; }
+  .pie__marca        { grid-column: span 8; }
+  /* En tableta el pie pasa a dos filas: marca y formulario arriba (8 + 4), y los
+     tres bloques de enlaces abajo (4 + 4 + 4). */
+  .pie__nav,
+  .pie__legal-enlaces,
+  .pie__contacto     { grid-column: span 4; }
+  .pie__formulario   { grid-column: span 4; }
+}
+
+@media (max-width: 980px) {
+  /* .plan__contenido y .plan__visual ya van a ancho completo en la base: no se
+     repiten aquí. */
+  .panel-contacto,
+  .datos-contacto,
+  .pie__marca,
+  .pie__formulario,
+  .pie__nav,
+  .pie__legal-enlaces,
+  .pie__contacto { grid-column: 1 / -1; }
+
+  /* En móvil el vídeo a 16:9 mide ~220 px: el titular no cabe encima, así que el
+     panel deja de ir superpuesto y pasa al flujo, debajo de la banda de vídeo. */
+  .heroe__capa { position: static; }
+
+  /* Sin vídeo detrás no hay nada que difuminar: el panel pierde su caja de
+     cristal y el titular se apoya directamente en el fondo. */
+  .heroe__panel {
+    padding: 0;
+    background: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: 0;
+    box-shadow: none;
+  }
+  .heroe__interior { padding-block: var(--e4) var(--e6); }
+
+  .rejilla--3 > * { grid-column: span 4; }
+  .pie__marca { grid-column: span 6; }
+  .pie__nav, .pie__contacto { grid-column: span 3; }
+}
+
+@media (max-width: 880px) {
+  .menu-boton { display: flex; }
+
+  .navegacion {
+    position: absolute;
+    inset: 100% 0 auto 0;
+    display: grid;
+    gap: var(--e3);
+    padding: var(--e3) clamp(1rem, 4vw, 2.5rem) var(--e4);
+    background: rgba(10, 10, 10, .97);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--borde);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity var(--transicion), transform var(--transicion), visibility var(--transicion);
+  }
+  .navegacion--abierta { opacity: 1; visibility: visible; transform: none; }
+  .navegacion__lista { flex-direction: column; gap: var(--e2); }
+  .navegacion__lista a { font-size: 1.15rem; }
+  .navegacion .boton { width: 100%; }
+}
+
+/* Móvil — 4 columnas */
+@media (max-width: 620px) {
+  .plan,
+  .contacto,
+  .rejilla,
+  .pie__interior { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+  .rejilla--3 > *,
+  .rejilla--servicios > * { grid-column: 1 / -1; }
+
+  .plan__lista { grid-template-columns: minmax(0, 1fr); }
+
+  .lista-marcas--dos { columns: 1; }
+  .heroe__acciones .boton { width: 100%; }
+
+  /* Los enlaces legales pasan a una sola columna: a este ancho, dos columnas
+     parten las etiquetas largas. */
+  .pie__legal-enlaces ul { columns: 1; }
+}
+
+/* --------------------------------------- 16. Páginas legales y de texto */
+/* Estructura de artículo para las páginas de privacidad, términos, cookies y
+   avisos. Reutiliza los tokens del sistema: no introduce tipografía, colores ni
+   espaciados nuevos. */
+.legal { padding-block: clamp(3rem, 6vw, 6rem); }
+.legal__encabezado {
+  max-width: 768px;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+  padding-bottom: var(--e3);
+  border-bottom: 1px solid var(--borde);
+}
+.legal__encabezado h1 {
+  font-size: clamp(1.9rem, 1.3rem + 2.2vw, 2.75rem);
+  line-height: 1.1;
+  text-transform: none;
+}
+.legal__vigencia {
+  display: block;
+  margin-top: var(--e2);
+  color: var(--plata-apagada);
+  font-size: .88rem;
+}
+.legal__cuerpo { max-width: 76ch; }
+.legal__cuerpo h2 {
+  margin-top: var(--e8);
+  margin-bottom: var(--e2);
+  font-size: var(--t-h5);
+  line-height: 1.25;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.legal__cuerpo h2:first-child { margin-top: 0; }
+.legal__cuerpo h3 {
+  margin-top: var(--e4);
+  margin-bottom: var(--e1);
+  font-size: var(--t-h6);
+  line-height: 1.25;
+}
+.legal__cuerpo p,
+.legal__cuerpo li { color: var(--plata); line-height: 1.7; }
+.legal__cuerpo p { margin-bottom: var(--e2); }
+.legal__cuerpo strong { color: var(--plata-claro); }
+.legal__cuerpo ul,
+.legal__cuerpo ol {
+  margin: 0 0 var(--e2);
+  padding-left: var(--e3);
+}
+.legal__cuerpo ul { list-style: none; }
+.legal__cuerpo ul li {
+  position: relative;
+  margin-bottom: var(--e1);
+  padding-left: var(--e3);
+}
+.legal__cuerpo ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .7em;
+  width: 7px;
+  height: 7px;
+  background: var(--azul);
+  border-radius: 1px;
+  transform: rotate(45deg);
+}
+.legal__cuerpo ol { list-style: decimal; }
+.legal__cuerpo ol li { margin-bottom: var(--e1); padding-left: var(--e1); }
+.legal__cuerpo ol li::marker { color: var(--azul-texto); font-weight: 700; }
+
+/* Índice de la página. No es decorativo: un aviso de privacidad se consulta por
+   puntos concretos, y saltar al apartado evita leerlo entero. */
+.legal__indice {
+  max-width: 76ch;
+  margin-bottom: var(--e8);
+  padding: var(--e3);
+  background: var(--carbon-alt);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-gr);
+}
+.legal__indice p {
+  margin-bottom: var(--e2);
+  font-family: var(--fuente-titulo);
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--plata-apagada);
+}
+.legal__indice ol {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--e1) var(--e3);
+  margin: 0;
+  padding-left: var(--e3);
+}
+.legal__indice a { color: var(--plata-claro); font-size: .95rem; }
+.legal__indice a:hover { color: var(--azul-texto); }
+
+/* Destacado para la información que la ley obliga a resaltar: transferencias,
+   datos sensibles y derechos ARCO. */
+.legal__destacado {
+  margin: 0 0 var(--e3);
+  padding: var(--e3);
+  background: rgba(0, 94, 181, .1);
+  border-left: 3px solid var(--azul);
+  border-radius: 0 var(--radio) var(--radio) 0;
+}
+.legal__destacado p:last-child { margin-bottom: 0; }
+
+.legal__tabla { width: 100%; margin-bottom: var(--e3); border-collapse: collapse; }
+.legal__tabla caption {
+  margin-bottom: var(--e2);
+  text-align: left;
+  color: var(--plata-apagada);
+  font-size: .85rem;
+}
+.legal__tabla th,
+.legal__tabla td {
+  padding: var(--e2);
+  border: 1px solid var(--borde);
+  text-align: left;
+  vertical-align: top;
+  font-size: .92rem;
+  line-height: 1.6;
+}
+.legal__tabla th {
+  background: var(--carbon-claro);
+  color: var(--blanco);
+  font-family: var(--fuente-titulo);
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+.legal__tabla td { color: var(--plata); }
+/* La tabla de cookies tiene 4 columnas y no cabe en móvil: se desplaza en
+   horizontal en lugar de apilarse, porque apilada se pierde la relación entre
+   el nombre de la cookie y su finalidad. */
+.legal__tabla-envoltura { overflow-x: auto; margin-bottom: var(--e3); }
+.legal__tabla-envoltura .legal__tabla { min-width: 640px; margin-bottom: 0; }
+
+.legal__volver { margin-top: var(--e8); padding-top: var(--e3); border-top: 1px solid var(--borde); }
+
+/* ------------------------------- 16bis. Banner de consentimiento de cookies */
+/* Se inyecta desde consentimiento.js, no está en el HTML. Así el aviso de
+   privacidad se puede leer aunque el JavaScript falle, y de paso el banner no
+   ocupa espacio en el documento para quien ya decidió. */
+.consentimiento {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 200;              /* por encima del encabezado (100) y del flotante (90) */
+  padding: var(--e3) 0;
+  background: rgba(10, 10, 10, .97);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid var(--borde-fuerte);
+  box-shadow: 0 -16px 40px -16px rgba(0, 0, 0, .9);
+}
+.consentimiento[hidden] { display: none; }
+
+/* Cuando el banner está a la vista, el botón flotante de WhatsApp se apoya justo
+   encima de él. Los dos son fijos y viven en la misma franja inferior: sin esto,
+   el banner tapa el botón y no se puede pulsar. Lo detectó tools/diag_solapes.py
+   —fue una interacción que se escapó al añadir el banner—.
+   La altura NO es un número fijo en el CSS: la mide consentimiento.js y la
+   publica en --banner-alto. Con un valor fijo fallaba en móvil, donde el banner
+   es más alto porque los botones se apilan. */
+body.con-banner-cookies .whatsapp {
+  bottom: calc(var(--e4) + var(--banner-alto, 96px) + env(safe-area-inset-bottom, 0px));
+}
+.consentimiento__interior {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--e3) var(--e4);
+}
+.consentimiento__texto { max-width: 74ch; }
+.consentimiento__texto p { margin: 0; color: var(--plata); font-size: .92rem; line-height: 1.6; }
+.consentimiento__texto a { color: var(--azul-texto); }
+.consentimiento__acciones { display: flex; flex-wrap: wrap; gap: var(--e2); }
+
+@media (max-width: 880px) {
+  .consentimiento__interior { grid-template-columns: minmax(0, 1fr); }
+  .consentimiento__acciones .boton { flex: 1 1 auto; }
+}
+@media (max-width: 620px) {
+  .consentimiento { padding: var(--e2) 0; }
+  .consentimiento__texto p { font-size: .86rem; }
+  .consentimiento__acciones { flex-direction: column; }
+  .consentimiento__acciones .boton { width: 100%; }
+}
+
+/* Pie reducido de las páginas legales: no llevan navegación de secciones ni
+   formulario, pero sí los enlaces obligatorios y el aviso de copyright. */
+.pie--legal .pie__interior { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+.pie__legal-enlaces { grid-column: span 6; }
+.pie__legal-enlaces ul { columns: 2; column-gap: var(--e3); }
+.pie__legal-enlaces li { margin-bottom: var(--e1); break-inside: avoid; }
+
+@media (max-width: 980px) {
+  .pie__legal-enlaces { grid-column: 1 / -1; }
+}
+@media (max-width: 620px) {
+  .legal__indice ol { grid-template-columns: minmax(0, 1fr); }
+  .pie__legal-enlaces ul { columns: 1; }
+}
+
+/* ------------------------------------------- 17. Preferencias del sistema */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+  .revelar { opacity: 1; transform: none; }
+}
