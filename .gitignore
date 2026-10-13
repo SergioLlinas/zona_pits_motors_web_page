@@ -1,0 +1,59 @@
+# ============================================================
+#  Archivos del servidor DreamHost
+#  NO forman parte del sitio web: son configuracion del VPS.
+#  Nunca deben subirse al Web Directory ni al repositorio.
+# ============================================================
+
+# Configuracion de usuario del servidor
+.alias
+.bash_profile
+.bash_history
+.bash_logout
+.bashrc
+.cshrc
+.kshrc
+.zshrc
+.profile
+.forward
+.my.cnf
+
+# Configuracion de PHP y cache del servidor
+.php/
+.cache/
+.phprc
+
+# Correo y registros del servidor
+Maildir/
+logs/
+
+# Carpetas de trabajo locales (no son parte del sitio)
+PAGINA ZONA PITS/
+
+# ============================================================
+#  Basura del sistema operativo
+# ============================================================
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+$RECYCLE.BIN/
+.DS_Store
+._*
+
+# ============================================================
+#  Editores
+# ============================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ============================================================
+#  Entorno y secretos (por seguridad, nunca versionar)
+# ============================================================
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
